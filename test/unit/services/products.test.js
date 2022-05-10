@@ -45,12 +45,13 @@ describe('Testa a função getAll da camada de services da "products"', () => {
 describe('Testa a função getProductById da camada de services da "products"', () => {
   describe('quando encontra o id', () => {
 
+    const result =  {
+      "id": 1,
+      "name": "Martelo de Thor",
+      "quantity": 10
+    }
+
     before(() => {
-      const result =  {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
@@ -59,27 +60,26 @@ describe('Testa a função getProductById da camada de services da "products"', 
     })
   
     it('deve retornar um objeto' , async () => {
-      const id = 1
-      const response = await service.products.getProductById(id)
+      const response = await service.products.getProductById()
       expect(response).to.be.a('object')
     })
 
     it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
-      const id = 1
       const product = {
         "id": 1,
         "name": "Martelo de Thor",
         "quantity": 10
       }
-      const response = await service.products.getProductById(id)
+      const response = await service.products.getProductById()
       expect(response).to.be.includes(product)
     })
   })
 
   describe('quando não encontra o id', () => {
-    
+
+    const result = undefined;
+
     before(() => {
-      const result = undefined;
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
@@ -88,9 +88,8 @@ describe('Testa a função getProductById da camada de services da "products"', 
     })
   
     it('deve retornar um error' , async () => {
-      const id = 1
       try {
-        await service.products.getProductById(id)
+        await service.products.getProductById()
       } catch (error) {
         expect(error).to.be.a('object').to.have.property('status', 404)
       }  
@@ -98,8 +97,7 @@ describe('Testa a função getProductById da camada de services da "products"', 
 
     it('deve conter a chave "message" com a messagem "Product not found"', async () => {
       try {
-        const id = 1
-        await service.products.getProductById(id)
+        await service.products.getProductById()
       } catch (error) {
         expect(error).to.be.a('object').to.have.property('message', 'Product not found')
       }

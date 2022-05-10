@@ -5,27 +5,28 @@ const model = require('../../../models')
 
 describe('Testa a função getAll da camada de models da "products"', () => {
   describe('quando ocorre com sucesso', () => {
-
+    
+    const result = [[
+      {
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      },
+      {
+        "id": 2,
+        "name": "Traje de encolhimento",
+        "quantity": 20
+      }]]
+     
     before(() => {
-      const response = [[
-        {
-          "id": 1,
-          "name": "Martelo de Thor",
-          "quantity": 10
-        },
-        {
-          "id": 2,
-          "name": "Traje de encolhimento",
-          "quantity": 20
-        }]]
-      sinon.stub(connection, 'execute').resolves(response)
+      sinon.stub(connection, 'execute').resolves(result)
     })
 
     after(() => connection.execute.restore())
  
     it('deve retorna um array', async () => {
-      const result = await model.products.getAll()
-      expect(result).to.be.an('array')
+      const response = await model.products.getAll()
+      expect(response).to.be.an('array')
     })
 
     it('array com os produtos dentro de um objeto', async () => {
@@ -36,8 +37,8 @@ describe('Testa a função getAll da camada de models da "products"', () => {
         "quantity": 10
       }
 
-      const [result] = await model.products.getAll()
-      expect(result).to.be.includes(product)
+      const [response] = await model.products.getAll()
+      expect(response).to.be.includes(product)
     })
   })
 })

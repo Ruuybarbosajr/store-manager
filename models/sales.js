@@ -30,5 +30,3 @@ module.exports = {
   getAll,
   getSalesById,
 };
-
-// SELECT sl.date, sp.product_id AS productId, sp.quantity FROM sales_products AS sp JOIN sales AS sl ON sl.id = sp.sale_id WHERE sl.id = 2;
