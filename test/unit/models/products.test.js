@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const connection = require('../../../models/connection')
 const model = require('../../../models')
 
-describe.skip('Testa a função getAll da camada de model', () => {
+describe('Testa a função getAll da camada de models', () => {
   describe('quando ocorre com sucesso', () => {
     const response = [[
       {
@@ -42,7 +42,7 @@ describe.skip('Testa a função getAll da camada de model', () => {
   })
 })
 
-describe.skip('Testa a função getProductById da camada de model', () => {
+describe('Testa a função getProductById da camada de models', () => {
   describe('quando encontra o id', () => {
 
     const result =  [[{

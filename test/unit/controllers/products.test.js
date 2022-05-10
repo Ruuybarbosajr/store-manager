@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const controller = require('../../../controllers')
 const service =  require('../../../services')
 
-describe.skip('Testa o middleware getAll da camada de controller', () => {
+describe('Testa o controller getAll da camada de controllers', () => {
   describe('quando ocorre com sucesso', () => {
     const response = [
       {
@@ -43,7 +43,7 @@ describe.skip('Testa o middleware getAll da camada de controller', () => {
   })
 })
 
-describe.skip('Testa o middleware getProductById da camada de controller', () => {
+describe('Testa o controller getProductById da camada de controllers', () => {
   describe('quando ocorre com sucesso', () => {
     const product = {
       "id": 1,

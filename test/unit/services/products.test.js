@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const model = require('../../../models')
 const service =  require('../../../services')
 
-describe.skip('Testa a função getAll da camada de service', () => {
+describe('Testa a função getAll da camada de services', () => {
   describe('quando ocorre com sucesso', () => {
     const response = [
       {
@@ -42,7 +42,7 @@ describe.skip('Testa a função getAll da camada de service', () => {
   })
 })
 
-describe.skip('Testa a função getProductById da camada de service', () => {
+describe('Testa a função getProductById da camada de services', () => {
   describe('quando encontra o id', () => {
 
     const result =  {
@@ -57,10 +57,10 @@ describe.skip('Testa a função getProductById da camada de service', () => {
 
     after(() => model.products.getProductById.restore())
   
-    it('deve retornar um objeto' ,async () => {
+    it('deve retornar um objeto' , async () => {
       const id = 1
       const response = await service.products.getProductById(id)
-      expect(response).to.be.an('object')
+      expect(response).to.be.a('object')
     })
 
     it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
