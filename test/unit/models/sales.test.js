@@ -52,3 +52,45 @@ describe('Testa a função getAll da camada de models da "sales"', () => {
     })
   })
 })
+
+describe('Testa a função getSalesById da camada de models da "sales"', () => {
+  describe('quando encontra o id', () => {
+    const result = [[
+      {
+        "date": "2022-05-10 20:57:48",
+        "productId": 1,
+        "quantity": 5
+      },
+      {
+        "date": "2022-05-10 20:57:48",
+        "productId": 2,
+        "quantity": 10
+      }
+    ]]
+ 
+    before(() => {
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    after(() => {
+      connection.execute.restore()
+    })
+
+    it('deve retornar um array', async () => {
+      const id = 1
+      const response = await model.sales.getSalesById(id)
+      expect(response).to.be.an('array')
+    })
+
+    it('o array deve conter um objeto com as chaves "date", "productId" e "quantity"', async () => {
+      const id =  1
+      const sale = {
+        "date": "2022-05-10 20:57:48",
+        "productId": 1,
+        "quantity": 5
+      }
+      const [response] = await model.sales.getSalesById(id)
+      expect(response).to.be.includes(sale)
+    })
+  })
+})
