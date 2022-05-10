@@ -47,8 +47,10 @@ describe('Testa o controller getAll da camada de controllers da "sales"', () => 
     })
 
    
-    it('deve retornar um array com as vendas dentro de um objeto', async () => {
+    it('deve retornar um array com as vendas dentro de um objeto com as chaves "saleId", "date", "productId" e "quantity"', async () => {
       await controller.sales.getAll(req, res)
+      const [sale] = result
+      expect(sale).to.have.all.keys('saleId', 'date', 'productId' ,'quantity')
       expect(res.json.calledWith(result)).to.be.equal(true)
     })
   })
@@ -95,6 +97,8 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
 
     it('dentro do array deve conter um objeto com as chaves "date", "productId" e "quantity"', async () => {
       await controller.sales.getSalesById(req, res)
+      const [sale] = result
+      expect(sale).to.have.all.keys('date', 'productId' ,'quantity')
       expect(res.json.calledWith(result)).to.be.equal(true)
     })
 

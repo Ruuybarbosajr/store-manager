@@ -40,15 +40,9 @@ describe('Testa a função getAll da camada de services da "sales"', () => {
       expect(response).to.be.an('array')
     })
   
-    it('array com as vendas dentro de um objeto', async () => {
-      const sale = {
-        saleId: 1,
-        date: '2022-05-10T18:50:31.000Z',
-        productId: 1,
-        quantity: 5
-      }
+    it('array com as vendas dentro de um objeto com as chaves "saleId", "date", "productId" e "quantity"', async () => {
       const [response] = await service.sales.getAll()
-      expect(response).to.be.includes(sale)
+      expect(response).to.have.all.keys('saleId', 'date', 'productId', 'quantity')
     })
 
   })
@@ -82,13 +76,8 @@ describe('Testa a função getSalesById da camada de services da "sales"', () =>
     })
 
     it('o array deve conter um objeto com as chaves "date", "productId" e "quantity"', async () => {
-      const sale = {
-        "date": "2022-05-10 20:57:48",
-        "productId": 1,
-        "quantity": 5
-      }
       const [response] = await service.sales.getSalesById()
-      expect(response).to.be.includes(sale)
+      expect(response).to.have.all.keys('date', 'productId', 'quantity')
     })
   })
 

@@ -35,9 +35,11 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
       expect(res.status.calledWith(200)).to.be.equal(true)
     })
 
-    it('deve retornar um array com os produtos dentro de um objeto', async () => {
+    it('deve retornar um array com os produtos dentro de um objeto com as chaves "id", "name" e "quantity"', async () => {
 
       await controller.products.getAll(req, res)
+      const [product] = result
+      expect(product).to.have.all.keys('id', 'name', 'quantity')
       expect(res.json.calledWith(result)).to.be.equal(true)
     })
   })
@@ -74,6 +76,7 @@ describe('Testa o controller getProductById da camada de controllers da "product
 
     it('deve retornar um objeto com as chaves "id", "name" e "quantity"', async () => {
       await controller.products.getProductById(req, res)
+      expect(product).to.have.all.keys('id', 'name', 'quantity')
       expect(res.json.calledWith(product)).to.be.equal(true)
     })
   })

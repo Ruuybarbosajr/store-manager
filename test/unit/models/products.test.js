@@ -29,16 +29,9 @@ describe('Testa a função getAll da camada de models da "products"', () => {
       expect(response).to.be.an('array')
     })
 
-    it('array com os produtos dentro de um objeto', async () => {
-
-      const product = {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
-
+    it('array com os produtos dentro de um objeto com as chaves "id", "name" e "quantity"', async () => {
       const [response] = await model.products.getAll()
-      expect(response).to.be.includes(product)
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
     })
   })
 })
@@ -59,20 +52,13 @@ describe('Testa a função getProductById da camada de models da "products"', ()
     after(() => connection.execute.restore())
   
     it('deve retornar um array' ,async () => {
-      const id = 1
-      const response = await model.products.getProductById(id)
+      const response = await model.products.getProductById()
       expect(response).to.be.an('object')
     })
 
     it('deve ter um objeto com as chaves "id", "name" e "quantity"', async () => {
-      const id = 1
-      const product = {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
-      const response = await model.products.getProductById(id)
-      expect(response).to.be.includes(product)
+      const response = await model.products.getProductById()
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
     })
   })
 
@@ -86,8 +72,7 @@ describe('Testa a função getProductById da camada de models da "products"', ()
     after(() => connection.execute.restore())
   
     it('deve retornar undefined' ,async () => {
-      const id = 1
-      const response = await model.products.getProductById(id)
+      const response = await model.products.getProductById()
       expect(response).to.be.undefined
     })
   })

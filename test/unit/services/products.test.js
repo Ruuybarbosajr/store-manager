@@ -28,16 +28,9 @@ describe('Testa a função getAll da camada de services da "products"', () => {
       expect(response).to.be.an('array')
     })
 
-    it('array com os produtos dentro de um objeto', async () => {
-
-      const product = {
-      "id": 1,
-      "name": "Martelo de Thor",
-      "quantity": 10
-    }
-
+    it('array com os produtos dentro de um objeto com as chaves "id", "name" e "quantity"', async () => {
       const [response] = await service.products.getAll()
-      expect(response).to.be.includes(product)
+      expect(response).to.have.all.keys('id', 'name' ,'quantity')
     })
   })
 })
@@ -65,13 +58,8 @@ describe('Testa a função getProductById da camada de services da "products"', 
     })
 
     it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
-      const product = {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      }
       const response = await service.products.getProductById()
-      expect(response).to.be.includes(product)
+      expect(response).to.have.all.keys('id', 'name' ,'quantity')
     })
   })
 

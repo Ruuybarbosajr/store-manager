@@ -40,15 +40,9 @@ describe('Testa a função getAll da camada de models da "sales"', () => {
       expect(response).to.be.an('array')
     })
   
-    it('array com as vendas dentro de um objeto', async () => {
-      const sale = {
-        saleId: 1,
-        date: '2022-05-10T18:50:31.000Z',
-        productId: 1,
-        quantity: 5
-      }
+    it('array com as vendas dentro de um objeto com as chaves "saleId", "date", "productId" e "quantity"', async () => {
       const [response] = await model.sales.getAll()
-      expect(response).to.be.includes(sale)
+      expect(response).to.have.all.keys('saleId', 'date', 'productId', 'quantity')
     })
   })
 })
@@ -83,14 +77,8 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
     })
 
     it('o array deve conter um objeto com as chaves "date", "productId" e "quantity"', async () => {
-      const id =  1
-      const sale = {
-        "date": "2022-05-10 20:57:48",
-        "productId": 1,
-        "quantity": 5
-      }
-      const [response] = await model.sales.getSalesById(id)
-      expect(response).to.be.includes(sale)
+      const [response] = await model.sales.getSalesById()
+      expect(response).to.have.all.keys('date', 'productId', 'quantity')
     })
   })
 
@@ -104,8 +92,7 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
     after(() => connection.execute.restore())
   
     it('deve retornar um array vazio' ,async () => {
-      const id = 1
-      const response = await model.sales.getSalesById(id)
+      const response = await model.sales.getSalesById()
       expect(response).to.be.empty
     })
 
