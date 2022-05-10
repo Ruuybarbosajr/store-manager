@@ -61,6 +61,9 @@ describe('Testa o controller getProductById da camada de controllers', () => {
       sinon.stub(service.products, 'getProductById').resolves(product)
     })
 
+    after(() => {
+      service.products.getProductById.restore()
+    })
 
     it('deve retorna um status code 200', async () => {
       await controller.products.getProductById(req, res)

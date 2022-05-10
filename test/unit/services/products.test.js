@@ -45,17 +45,18 @@ describe('Testa a função getAll da camada de services', () => {
 describe('Testa a função getProductById da camada de services', () => {
   describe('quando encontra o id', () => {
 
-    const result =  {
-      "id": 1,
-      "name": "Martelo de Thor",
-      "quantity": 10
-    }
-
     before(() => {
+      const result =  {
+        "id": 1,
+        "name": "Martelo de Thor",
+        "quantity": 10
+      }
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
-    after(() => model.products.getProductById.restore())
+    after(() => {
+      model.products.getProductById.restore()
+    })
   
     it('deve retornar um objeto' , async () => {
       const id = 1
@@ -76,21 +77,23 @@ describe('Testa a função getProductById da camada de services', () => {
   })
 
   describe('quando não encontra o id', () => {
-    const result = undefined
-
+    
     before(() => {
+      const result = undefined;
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
-    after(() => model.products.getProductById.restore())
+    after(() => {
+      model.products.getProductById.restore()
+    })
   
     it('deve retornar um error' , async () => {
+      const id = 1
       try {
-        const id = 1
         await service.products.getProductById(id)
       } catch (error) {
-        expect(error).to.throw
-      }
+        expect(error).to.be.a('object').to.have.property('status', 404)
+      }  
     })
 
     it('deve conter a chave "message" com a messagem "Product not found"', async () => {
@@ -98,7 +101,7 @@ describe('Testa a função getProductById da camada de services', () => {
         const id = 1
         await service.products.getProductById(id)
       } catch (error) {
-        expect(error.message).to.be.string('Product not found')
+        expect(error).to.be.a('object').to.have.property('message', 'Product not found')
       }
     })
   })
