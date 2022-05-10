@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const controller = require('../../../controllers')
 const service =  require('../../../services')
 
-describe('Testa o controller getAll da camada de controllers', () => {
+describe('Testa o controller getAll da camada de controllers da "products"', () => {
   describe('quando ocorre com sucesso', () => {
     const response = [
       {
@@ -43,7 +43,7 @@ describe('Testa o controller getAll da camada de controllers', () => {
   })
 })
 
-describe('Testa o controller getProductById da camada de controllers', () => {
+describe('Testa o controller getProductById da camada de controllers da "products"', () => {
   describe('quando ocorre com sucesso', () => {
     const product = {
       "id": 1,
@@ -57,7 +57,7 @@ describe('Testa o controller getProductById da camada de controllers', () => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(product)
-
+      
       sinon.stub(service.products, 'getProductById').resolves(product)
     })
 

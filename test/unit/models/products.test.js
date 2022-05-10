@@ -3,21 +3,21 @@ const sinon = require('sinon')
 const connection = require('../../../models/connection')
 const model = require('../../../models')
 
-describe('Testa a função getAll da camada de models', () => {
+describe('Testa a função getAll da camada de models da "products"', () => {
   describe('quando ocorre com sucesso', () => {
-    const response = [[
-      {
-        "id": 1,
-        "name": "Martelo de Thor",
-        "quantity": 10
-      },
-      {
-        "id": 2,
-        "name": "Traje de encolhimento",
-        "quantity": 20
-      }]]
 
     before(() => {
+      const response = [[
+        {
+          "id": 1,
+          "name": "Martelo de Thor",
+          "quantity": 10
+        },
+        {
+          "id": 2,
+          "name": "Traje de encolhimento",
+          "quantity": 20
+        }]]
       sinon.stub(connection, 'execute').resolves(response)
     })
 
@@ -42,7 +42,7 @@ describe('Testa a função getAll da camada de models', () => {
   })
 })
 
-describe('Testa a função getProductById da camada de models', () => {
+describe('Testa a função getProductById da camada de models da "products"', () => {
   describe('quando encontra o id', () => {
 
     const result =  [[{

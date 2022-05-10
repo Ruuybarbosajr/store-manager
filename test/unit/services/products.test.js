@@ -3,7 +3,7 @@ const sinon = require('sinon')
 const model = require('../../../models')
 const service =  require('../../../services')
 
-describe('Testa a função getAll da camada de services', () => {
+describe('Testa a função getAll da camada de services da "products"', () => {
   describe('quando ocorre com sucesso', () => {
     const response = [
       {
@@ -42,7 +42,7 @@ describe('Testa a função getAll da camada de services', () => {
   })
 })
 
-describe('Testa a função getProductById da camada de services', () => {
+describe('Testa a função getProductById da camada de services da "products"', () => {
   describe('quando encontra o id', () => {
 
     before(() => {
