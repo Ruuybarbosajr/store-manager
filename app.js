@@ -10,6 +10,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', router.products);
+app.use('/sales', router.sales);
 app.use(middleware.error);
 
 // não remova essa exportação, é para o avaliador funcionar

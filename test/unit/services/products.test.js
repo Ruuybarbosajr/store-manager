@@ -5,7 +5,7 @@ const service =  require('../../../services')
 
 describe('Testa a função getAll da camada de services da "products"', () => {
   describe('quando ocorre com sucesso', () => {
-    const response = [
+    const result = [
       {
         "id": 1,
         "name": "Martelo de Thor",
@@ -18,14 +18,14 @@ describe('Testa a função getAll da camada de services da "products"', () => {
       }]
 
     before(() => {
-      sinon.stub(model.products, 'getAll').resolves(response)
+      sinon.stub(model.products, 'getAll').resolves(result)
     })
 
     after(() => model.products.getAll.restore())
  
     it('deve retorna um array', async () => {
-      const result = await service.products.getAll()
-      expect(result).to.be.an('array')
+      const response = await service.products.getAll()
+      expect(response).to.be.an('array')
     })
 
     it('array com os produtos dentro de um objeto', async () => {
@@ -36,8 +36,8 @@ describe('Testa a função getAll da camada de services da "products"', () => {
       "quantity": 10
     }
 
-      const [result] = await service.products.getAll()
-      expect(result).to.be.includes(product)
+      const [response] = await service.products.getAll()
+      expect(response).to.be.includes(product)
     })
   })
 })

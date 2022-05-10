@@ -5,7 +5,7 @@ const service =  require('../../../services')
 
 describe('Testa o controller getAll da camada de controllers da "products"', () => {
   describe('quando ocorre com sucesso', () => {
-    const response = [
+    const result = [
       {
         "id": 1,
         "name": "Martelo de Thor",
@@ -23,9 +23,9 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
     before(() => {
 
       res.status = sinon.stub().returns(res)
-      res.json = sinon.stub().returns(response)
+      res.json = sinon.stub().returns(result)
 
-      sinon.stub(service.products, 'getAll').resolves(response)
+      sinon.stub(service.products, 'getAll').resolves(result)
     })
 
     after(() => service.products.getAll.restore())
@@ -38,7 +38,7 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
     it('deve retornar um array com os produtos dentro de um objeto', async () => {
 
       await controller.products.getAll(req, res)
-      expect(res.json.calledWith(response)).to.be.equal(true)
+      expect(res.json.calledWith(result)).to.be.equal(true)
     })
   })
 })
