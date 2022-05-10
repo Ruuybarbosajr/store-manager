@@ -45,11 +45,13 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
 
 describe('Testa o controller getProductById da camada de controllers da "products"', () => {
   describe('quando ocorre com sucesso', () => {
+
     const product = {
       "id": 1,
       "name": "Martelo de Thor",
       "quantity": 10
     }
+
     const req = {}
     const res = {}
 
@@ -67,12 +69,12 @@ describe('Testa o controller getProductById da camada de controllers da "product
 
     it('deve retorna um status code 200', async () => {
       await controller.products.getProductById(req, res)
-      expect(res.status.calledWith(200)).to.be.true
+      expect(res.status.calledWith(200)).to.be.equal(true)
     })
 
     it('deve retornar um objeto com as chaves "id", "name" e "quantity"', async () => {
       await controller.products.getProductById(req, res)
-      expect(res.json.calledWith(product)).to.be.true
+      expect(res.json.calledWith(product)).to.be.equal(true)
     })
   })
 })

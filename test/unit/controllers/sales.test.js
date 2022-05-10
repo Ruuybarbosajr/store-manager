@@ -53,3 +53,50 @@ describe('Testa o controller getAll da camada de controllers da "sales"', () => 
     })
   })
 })
+
+describe('Testa o controller getSalesById da camada de controllers da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = [
+      {
+        "date": "2022-05-10 20:57:48",
+        "productId": 1,
+        "quantity": 5
+      },
+      {
+        "date": "2022-05-10 20:57:48",
+        "productId": 2,
+        "quantity": 10
+      }
+    ]
+
+    const req = {}
+    const res = {}
+
+    before(() => {
+      req.params = {id: 1}
+      res.status = sinon.stub().returns(res)
+      res.json = sinon.stub().returns(result)
+
+      sinon.stub(service.sales, 'getSalesById').resolves(result)
+    })
+
+    after(() => service.sales.getSalesById.restore())
+
+    it('deve retorna um status code 200', async () => {
+      await controller.sales.getSalesById(req, res)
+      expect(res.status.calledWith(200)).to.be.equal(true)
+    })
+
+    it('deve retornar um array', async () => {
+      await controller.sales.getSalesById(req, res)
+      expect(res.json.calledWith(sinon.match.array)).to.be.equal(true)
+    })
+
+    it('dentro do array deve conter um objeto com as chaves "date", "productId" e "quantity"', async () => {
+      await controller.sales.getSalesById(req, res)
+      expect(res.json.calledWith(result)).to.be.equal(true)
+    })
+
+  })
+})
