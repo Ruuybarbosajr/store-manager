@@ -24,8 +24,19 @@ async function createNewProduct(name, quantity) {
   return response;
 }
 
+async function updateProduct(id, name, quantity) {
+  const findProduct = await model.products.getProductById(id);
+  if (!findProduct) {
+    const error = { status: 404, message: 'Product not found' };
+    throw error;
+  }
+  const response = await model.products.updateProduct(id, name, quantity);
+  return response;
+}
+
 module.exports = {
   getAll,
   getProductById,
   createNewProduct,
+  updateProduct,
 };

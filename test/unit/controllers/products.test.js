@@ -116,3 +116,38 @@ describe('Testa o controller createNewProduct da camada de controllers da "produ
     })
   })
 })
+
+describe('Testa o controller updateProduct da camada de controllers da "prodcuts"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = {
+      id: 1,
+      name: 'havaina com prego',
+      quantity: 5
+    }
+
+    const req = {}
+    const res = {}
+
+    before(() => {
+      req.params = {id: 1}
+      req.body = {name: 'havainas', quantity: 5}
+      res.status = sinon.stub().returns(res)
+      res.json = sinon.stub().returns()
+
+      sinon.stub(service.products, 'updateProduct').resolves(result)
+    })
+
+    after(()=> service.products.updateProduct.restore())
+    
+    it('deve retornar um status code 200', async () => {
+      await controller.products.updateProduct(req, res)
+      expect(res.status.calledWith(200)).to.be.equal(true)
+    })
+
+    it('deve retornar um objeto', async () => {
+      await controller.products.updateProduct(req, res)
+      expect(res.json.calledWith(sinon.match.object)).to.be.equal(true)
+    })
+  })
+})

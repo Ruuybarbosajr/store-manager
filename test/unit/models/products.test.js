@@ -161,3 +161,25 @@ describe('Testa a função getProductByName da camada de models da "products"' ,
     })
   })
 })
+
+describe('Testa a função updateProduct da camada de models da "products"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    before(() => {
+
+      sinon.stub(connection, 'execute').resolves()
+    })
+
+    after(() => connection.execute.restore())
+
+    it('deve retornar um objeto', async () => {
+      const response = await model.products.updateProduct()
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id", "name" e ""quantity', async () => {
+      const response = await model.products.updateProduct()
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
+    })
+  })
+})

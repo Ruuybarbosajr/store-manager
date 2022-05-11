@@ -155,3 +155,61 @@ describe('Testa a função createNewProduct da camada de services da "products"'
     })
   })
 })
+
+describe('Testa a função updateProduct da camada de services da "products"', () => {
+  describe('quando existe o id', () => {
+
+    const result = {
+      id: 1,
+      name: 'havaina com prego',
+      quantity: 5
+    }
+   
+
+    before(() => {
+      sinon.stub(model.products,'updateProduct').resolves(result)
+      sinon.stub(model.products, 'getProductById').resolves({})
+    })
+
+    after(() => {
+      model.products.updateProduct.restore()
+      model.products.getProductById.restore()
+    })
+
+    it('deve retornar um objeto', async () => {
+      const response = await service.products.updateProduct()
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
+      const response =  await service.products.updateProduct()
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
+    })
+  })
+
+  describe('quando não existe o id', () => {
+    const result = undefined
+
+    before(() => {
+      sinon.stub(model.products, 'getProductById').resolves(result)
+    })
+
+    after(() => model.products.getProductById.restore())
+
+    it('deve retornar um error', async () => {
+      try {
+        await service.products.updateProduct()
+      } catch (error) {
+        expect(error).to.have.all.keys('status', 'message')
+      }
+    })
+
+    it('o objeto de error deve conter a messagem "Product not found"', async () => {
+      try {
+        await service.products.updateProduct()
+      } catch (error) {
+        expect(error).to.have.property('message', 'Product not found')
+      }
+    })
+  })
+})
