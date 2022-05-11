@@ -213,3 +213,55 @@ describe('Testa a função updateProduct da camada de services da "products"', (
     })
   })
 })
+
+describe('Testa a função deleteProduct da camada de services da "products"', () => {
+  describe('quando existe o id', () => {
+
+    before(() => {
+
+      sinon.stub(model.products, 'deleteProduct').resolves(1)
+      sinon.stub(model.products, 'getProductById').resolves({})
+    })
+
+    after(() => {
+      model.products.deleteProduct.restore()
+      model.products.getProductById.restore()
+    })
+
+    it('a função "model.products.deleteProduct é chamada', async () => {
+      await service.products.deleteProduct()
+      expect(model.products.deleteProduct.calledWith(sinon.match.any)).to.be.equal(true)
+    })
+  })
+
+  describe('quando não existe o id', () => {
+
+    before(() => {
+
+      sinon.stub(model.products, 'deleteProduct').resolves(0)
+      sinon.stub(model.products, 'getProductById').resolves(undefined)
+    })
+
+    after(() => {
+      model.products.deleteProduct.restore()
+      model.products.getProductById.restore()
+    })
+
+    it('retorna um error', async () => {
+      try {
+        await service.products.deleteProduct()
+      } catch (error) {
+        expect(error).to.have.all.keys('status', 'message')
+      }
+    })
+
+    it('o objeto de error deve conter a mensagem "Product not found"', async () => {
+      try {
+        await service.products.deleteProduct()
+      } catch (error) {
+        expect(error).to.have.property('message', 'Product not found')
+      }
+    })
+
+  })
+})

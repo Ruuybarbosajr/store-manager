@@ -15,9 +15,9 @@ router.post(
 
 router.put(
   '/:id', 
-middleware.valid.bodyProducts,
-middleware.valid.contentBodyProducts,
-controller.products.updateProduct,
+  middleware.valid.bodyProducts,
+  middleware.valid.contentBodyProducts,
+  controller.products.updateProduct,
 );
 
 module.exports = router;

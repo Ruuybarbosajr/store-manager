@@ -183,3 +183,28 @@ describe('Testa a função updateProduct da camada de models da "products"', () 
     })
   })
 })
+
+describe('Testa a função deleteProduct da camada de models da "products"', () => {
+  describe('quando ocorre com sucesso', () => {
+    const result = [{
+        fieldCount: 0,
+        affectedRows: 1,
+        insertId: 0,
+        info: '',
+        serverStatus: 2,
+        warningStatus: 0
+      }]
+
+    before(() => {
+
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    after(() => connection.execute.restore())
+
+    it('retorna o número de linhas afetadas', async () => {
+      const response = await model.products.deleteProduct()
+      expect(response).to.be.equal(1)
+    })
+  })
+})

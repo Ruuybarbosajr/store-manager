@@ -151,3 +151,25 @@ describe('Testa o controller updateProduct da camada de controllers da "prodcuts
     })
   })
 })
+
+describe('Testa o controller deleteProduct da camada de controllers da "prodcuts"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const req = {}
+    const res = {}
+
+    before(() => {
+      req.params = {id: 1}
+      res.status = sinon.stub().returns(res)
+
+      sinon.stub(service.products, 'deleteProduct').resolves()
+    })
+
+    after(() => service.products.deleteProduct.restore())
+
+    it('retorna um status code de 204', async () => {
+      await controller.products.deleteProduct(req, res)
+      expect(res.status.calledWith(204)).to.be.equal(true)
+    })
+  })
+})
