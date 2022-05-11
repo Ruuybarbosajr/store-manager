@@ -23,7 +23,7 @@ async function createNewProduct(req, res, next) {
   const { name, quantity } = req.body;
   try {
     const response = await service.products.createNewProduct(name, quantity);
-    return res.status(201).json(response);  
+    return res.status(201).json(response);
   } catch (error) {
     next(error);
   }

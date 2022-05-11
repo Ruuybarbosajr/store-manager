@@ -17,11 +17,11 @@ describe('Testa a função getAll da camada de services da "products"', () => {
         "quantity": 20
       }]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products, 'getAll').resolves(result)
     })
 
-    after(() => model.products.getAll.restore())
+    afterEach(() => model.products.getAll.restore())
  
     it('deve retorna um array', async () => {
       const response = await service.products.getAll()
@@ -44,11 +44,11 @@ describe('Testa a função getProductById da camada de services da "products"', 
       "quantity": 10
     }
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.getProductById.restore()
     })
   
@@ -67,11 +67,11 @@ describe('Testa a função getProductById da camada de services da "products"', 
 
     const result = undefined;
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.getProductById.restore()
     })
   
@@ -102,12 +102,12 @@ describe('Testa a função createNewProduct da camada de services da "products"'
       "quantity": 1
     }
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products, 'createNewProduct').resolves(result)
       sinon.stub(model.products, 'getProductByName').resolves([])
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.createNewProduct.restore()
       model.products.getProductByName.restore()
     })
@@ -131,12 +131,12 @@ describe('Testa a função createNewProduct da camada de services da "products"'
       "quantity": 1
     }]
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(model.products, 'getProductByName').resolves(result)
     })
 
-    after(() => model.products.getProductByName.restore())
+    afterEach(() => model.products.getProductByName.restore())
 
     it('deve dar um error', async () => {
       try {
@@ -166,12 +166,12 @@ describe('Testa a função updateProduct da camada de services da "products"', (
     }
    
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products,'updateProduct').resolves(result)
       sinon.stub(model.products, 'getProductById').resolves({})
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.updateProduct.restore()
       model.products.getProductById.restore()
     })
@@ -190,11 +190,11 @@ describe('Testa a função updateProduct da camada de services da "products"', (
   describe('quando não existe o id', () => {
     const result = undefined
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.products, 'getProductById').resolves(result)
     })
 
-    after(() => model.products.getProductById.restore())
+    afterEach(() => model.products.getProductById.restore())
 
     it('deve retornar um error', async () => {
       try {
@@ -217,13 +217,13 @@ describe('Testa a função updateProduct da camada de services da "products"', (
 describe('Testa a função deleteProduct da camada de services da "products"', () => {
   describe('quando existe o id', () => {
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(model.products, 'deleteProduct').resolves(1)
       sinon.stub(model.products, 'getProductById').resolves({})
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.deleteProduct.restore()
       model.products.getProductById.restore()
     })
@@ -236,13 +236,13 @@ describe('Testa a função deleteProduct da camada de services da "products"', (
 
   describe('quando não existe o id', () => {
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(model.products, 'deleteProduct').resolves(0)
       sinon.stub(model.products, 'getProductById').resolves(undefined)
     })
 
-    after(() => {
+    afterEach(() => {
       model.products.deleteProduct.restore()
       model.products.getProductById.restore()
     })

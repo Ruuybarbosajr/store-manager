@@ -18,11 +18,11 @@ describe('Testa a função getAll da camada de models da "products"', () => {
         "quantity": 20
       }]]
      
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
  
     it('deve retorna um array', async () => {
       const response = await model.products.getAll()
@@ -45,11 +45,11 @@ describe('Testa a função getProductById da camada de models da "products"', ()
       "quantity": 10
     }]]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
   
     it('deve retornar um array' ,async () => {
       const response = await model.products.getProductById()
@@ -65,11 +65,11 @@ describe('Testa a função getProductById da camada de models da "products"', ()
   describe('quando não encontra o id', () => {
     const result = [[]]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
   
     it('deve retornar undefined' ,async () => {
       const response = await model.products.getProductById()
@@ -90,11 +90,11 @@ describe('Testa a função createNewProduct da camada de models da "products"', 
       warningStatus: 0
     }]]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
 
     it('retorna um objeto', async () => {
         const response = await model.products.createNewProduct()
@@ -117,12 +117,12 @@ describe('Testa a função getProductByName da camada de models da "products"' ,
       quantity: 30
     }]]
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
 
     it('deve retornar um array', async () => {
       const response = await model.products.getProductByName()
@@ -143,12 +143,12 @@ describe('Testa a função getProductByName da camada de models da "products"' ,
   describe('quando não encontra um name', () => {
     const result = [[]]
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
 
     it('deve retornar um array', async () => {
       const response = await model.products.getProductByName()
@@ -165,12 +165,12 @@ describe('Testa a função getProductByName da camada de models da "products"' ,
 describe('Testa a função updateProduct da camada de models da "products"', () => {
   describe('quando ocorre com sucesso', () => {
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(connection, 'execute').resolves()
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
 
     it('deve retornar um objeto', async () => {
       const response = await model.products.updateProduct()
@@ -195,12 +195,12 @@ describe('Testa a função deleteProduct da camada de models da "products"', () 
         warningStatus: 0
       }]
 
-    before(() => {
+    beforeEach(() => {
 
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
 
     it('retorna o número de linhas afetadas', async () => {
       const response = await model.products.deleteProduct()

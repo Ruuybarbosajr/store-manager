@@ -1,5 +1,4 @@
 const { expect } = require('chai')
-const { any } = require('joi')
 const sinon = require('sinon')
 const controller = require('../../../controllers')
 const service =  require('../../../services')
@@ -31,14 +30,14 @@ describe('Testa o controller getAll da camada de controllers da "sales"', () => 
     const res = {}
     const req = {}
 
-    before(() => {
+    beforeEach(() => {
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(result)
 
       sinon.stub(service.sales, 'getAll').resolves(result)
     })
 
-    after(() => {
+    afterEach(() => {
       service.sales.getAll.restore()
     })
 
@@ -76,7 +75,7 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
     const req = {}
     const res = {}
 
-    before(() => {
+    beforeEach(() => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(result)
@@ -84,7 +83,7 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
       sinon.stub(service.sales, 'getSalesById').resolves(result)
     })
 
-    after(() => service.sales.getSalesById.restore())
+    afterEach(() => service.sales.getSalesById.restore())
 
     it('deve retorna um status code 200', async () => {
       await controller.sales.getSalesById(req, res)
@@ -112,7 +111,7 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
     const res = {}
     const next = sinon.stub()
 
-    before(() => {
+    beforeEach(() => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns()
@@ -120,7 +119,7 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
       sinon.stub(service.sales, 'getSalesById').throws(error)
     })
 
-    after(() => service.sales.getSalesById.restore())
+    afterEach(() => service.sales.getSalesById.restore())
 
     it('next é chamado com um objeto de error', async () => {
         await controller.sales.getSalesById(req, res, next)

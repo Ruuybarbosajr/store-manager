@@ -27,11 +27,11 @@ describe('Testa a função getAll da camada de models da "sales"', () => {
       }
     ]]
     
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() =>  {
+    afterEach(() =>  {
       connection.execute.restore()
     })
 
@@ -61,12 +61,12 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
         "quantity": 10
       }
     ]]
- 
-    before(() => {
+
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => {
+    afterEach(() => {
       connection.execute.restore()
     })
 
@@ -85,11 +85,11 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
   describe('quando não encontra o id', () => {
     const result = [[]]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(connection, 'execute').resolves(result)
     })
 
-    after(() => connection.execute.restore())
+    afterEach(() => connection.execute.restore())
   
     it('deve retornar um array vazio' ,async () => {
       const response = await model.sales.getSalesById()

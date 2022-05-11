@@ -20,7 +20,7 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
     const res = {}
     const req = {}
 
-    before(() => {
+    beforeEach(() => {
 
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(result)
@@ -28,7 +28,7 @@ describe('Testa o controller getAll da camada de controllers da "products"', () 
       sinon.stub(service.products, 'getAll').resolves(result)
     })
 
-    after(() => service.products.getAll.restore())
+    afterEach(() => service.products.getAll.restore())
  
     it('deve retorna um status code 200', async () => {
       await controller.products.getAll(req, res)
@@ -58,7 +58,7 @@ describe('Testa o controller getProductById da camada de controllers da "product
     const res = {}
     const next = sinon.stub().returns()
 
-    before(() => {
+    beforeEach(() => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(product)
@@ -66,7 +66,7 @@ describe('Testa o controller getProductById da camada de controllers da "product
       sinon.stub(service.products, 'getProductById').resolves(product)
     })
 
-    after(() => {
+    afterEach(() => {
       service.products.getProductById.restore()
     })
 
@@ -96,7 +96,7 @@ describe('Testa o controller createNewProduct da camada de controllers da "produ
     const req = {}
     const res = {}
 
-    before(() => {
+    beforeEach(() => {
       req.body = {name: 'Escada do Uno da escada', 'quantity': 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns()
@@ -104,7 +104,7 @@ describe('Testa o controller createNewProduct da camada de controllers da "produ
       sinon.stub(service.products, 'createNewProduct').resolves(result)
     })
 
-    after(() => service.products.createNewProduct.restore())
+    afterEach(() => service.products.createNewProduct.restore())
 
     it('deve retornar um status 201', async () => {
       await controller.products.createNewProduct(req, res)
@@ -112,7 +112,8 @@ describe('Testa o controller createNewProduct da camada de controllers da "produ
     })
 
     it('deve retornar um objeto', async () => {
-      expect(res.json.calledWith(sinon.match.object)).to.be.equal(true)
+      await controller.products.createNewProduct(req, res)
+      expect(res.json.calledWith(result)).to.be.equal(true)
     })
   })
 })
@@ -129,7 +130,7 @@ describe('Testa o controller updateProduct da camada de controllers da "prodcuts
     const req = {}
     const res = {}
 
-    before(() => {
+    beforeEach(() => {
       req.params = {id: 1}
       req.body = {name: 'havainas', quantity: 5}
       res.status = sinon.stub().returns(res)
@@ -138,7 +139,7 @@ describe('Testa o controller updateProduct da camada de controllers da "prodcuts
       sinon.stub(service.products, 'updateProduct').resolves(result)
     })
 
-    after(()=> service.products.updateProduct.restore())
+    afterEach(()=> service.products.updateProduct.restore())
     
     it('deve retornar um status code 200', async () => {
       await controller.products.updateProduct(req, res)
@@ -158,18 +159,20 @@ describe('Testa o controller deleteProduct da camada de controllers da "prodcuts
     const req = {}
     const res = {}
 
-    before(() => {
+    beforeEach(() => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
+      res.end = sinon.stub().returns()
 
       sinon.stub(service.products, 'deleteProduct').resolves()
     })
 
-    after(() => service.products.deleteProduct.restore())
+    afterEach(() => service.products.deleteProduct.restore())
 
     it('retorna um status code de 204', async () => {
-      await controller.products.deleteProduct(req, res)
-      expect(res.status.calledWith(204)).to.be.equal(true)
+        await controller.products.deleteProduct(req, res)
+        expect(res.status.calledWith(204)).to.be.equal(true)
     })
+
   })
 })

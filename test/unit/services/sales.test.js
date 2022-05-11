@@ -26,12 +26,12 @@ describe('Testa a função getAll da camada de services da "sales"', () => {
         quantity: 15
       }
     ]
-   
-    before(() => {
+
+    beforeEach(() => {
       sinon.stub(model.sales, 'getAll').resolves(result)
     })
 
-    after(() =>  {
+    afterEach(() =>  {
       model.sales.getAll.restore()
     })
 
@@ -64,11 +64,11 @@ describe('Testa a função getSalesById da camada de services da "sales"', () =>
       }
     ]
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.sales, 'getSalesById').resolves(result)
     })
 
-    after(() => model.sales.getSalesById.restore())
+    afterEach(() => model.sales.getSalesById.restore())
 
     it('deve retornar um array', async () => {
       const response = await service.sales.getSalesById()
@@ -84,11 +84,11 @@ describe('Testa a função getSalesById da camada de services da "sales"', () =>
   describe('quando não encontra o id', () => {
     const result = []
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(model.sales, 'getSalesById').resolves(result)
     })
 
-    after(() => model.sales.getSalesById.restore())
+    afterEach(() => model.sales.getSalesById.restore())
   
     it('deve retornar um error' , async () => {
       try {
