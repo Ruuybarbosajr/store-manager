@@ -92,3 +92,66 @@ describe('Testa a função getProductById da camada de services da "products"', 
     })
   })
 })
+
+describe('Testa a função createNewProduct da camada de services da "products"', () => {
+  describe('quando não existe um produto com o mesmo nome cadastrado no banco', () => {
+    
+    const result = {
+      "id": 45,
+      "name": "Escada do Uno da escada",
+      "quantity": 1
+    }
+
+    before(() => {
+      sinon.stub(model.products, 'createNewProduct').resolves(result)
+      sinon.stub(model.products, 'getProductByName').resolves([])
+    })
+
+    after(() => {
+      model.products.createNewProduct.restore()
+      model.products.getProductByName.restore()
+    })
+
+    it('deve retornar um objeto', async () => {
+      const response = await service.products.createNewProduct()
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
+      const response = await service.products.createNewProduct()
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
+    })
+  })
+
+  describe('quando existe um produto com o mesmo nome cadastrado', () => {
+
+    const result = [{
+      "id": 45,
+      "name": "Escada do Uno da escada",
+      "quantity": 1
+    }]
+
+    before(() => {
+
+      sinon.stub(model.products, 'getProductByName').resolves(result)
+    })
+
+    after(() => model.products.getProductByName.restore())
+
+    it('deve dar um error', async () => {
+      try {
+        await service.products.createNewProduct()
+      } catch (error) {
+        expect(error).to.have.all.keys('status', 'message')
+      }
+    })
+
+    it('o objeto de error deve conter a messagem "Product already exists"', async () => {
+      try {
+        await service.products.createNewProduct()
+      } catch (error) {
+        expect(error).to.have.property('message', 'Product already exists')
+      }
+    })
+  })
+})

@@ -56,12 +56,13 @@ describe('Testa o controller getProductById da camada de controllers da "product
 
     const req = {}
     const res = {}
+    const next = sinon.stub().returns()
 
     before(() => {
       req.params = {id: 1}
       res.status = sinon.stub().returns(res)
       res.json = sinon.stub().returns(product)
-      
+
       sinon.stub(service.products, 'getProductById').resolves(product)
     })
 
@@ -78,6 +79,40 @@ describe('Testa o controller getProductById da camada de controllers da "product
       await controller.products.getProductById(req, res)
       expect(product).to.have.all.keys('id', 'name', 'quantity')
       expect(res.json.calledWith(product)).to.be.equal(true)
+    })
+
+  })
+})
+
+describe('Testa o controller createNewProduct da camada de controllers da "products"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = {
+      "id": 45,
+      "name": "Escada do Uno da escada",
+      "quantity": 1
+    }
+
+    const req = {}
+    const res = {}
+
+    before(() => {
+      req.body = {name: 'Escada do Uno da escada', 'quantity': 1}
+      res.status = sinon.stub().returns(res)
+      res.json = sinon.stub().returns()
+
+      sinon.stub(service.products, 'createNewProduct').resolves(result)
+    })
+
+    after(() => service.products.createNewProduct.restore())
+
+    it('deve retornar um status 201', async () => {
+      await controller.products.createNewProduct(req, res)
+      expect(res.status.calledWith(201)).to.be.equal(true)
+    })
+
+    it('deve retornar um objeto', async () => {
+      expect(res.json.calledWith(sinon.match.object)).to.be.equal(true)
     })
   })
 })

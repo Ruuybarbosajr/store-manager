@@ -77,3 +77,87 @@ describe('Testa a função getProductById da camada de models da "products"', ()
     })
   })
 })
+
+describe('Testa a função createNewProduct da camada de models da "products"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = [[{
+      fieldCount: 0,
+      affectedRows: 1,
+      insertId: 4,
+      info: '',
+      serverStatus: 2,
+      warningStatus: 0
+    }]]
+
+    before(() => {
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    after(() => connection.execute.restore())
+
+    it('retorna um objeto', async () => {
+        const response = await model.products.createNewProduct()
+        expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id", "name" e "quantity"', async () => {
+      const response = await model.products.createNewProduct()
+      expect(response).to.have.all.keys('id', 'name', 'quantity')
+    })
+  })
+})
+
+describe('Testa a função getProductByName da camada de models da "products"' , () => {
+  describe('quando encontra um name', () => {
+    
+    const result = [[{
+      id: 1,
+      name: 'Ovo do carro do ovo',
+      quantity: 30
+    }]]
+
+    before(() => {
+
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    after(() => connection.execute.restore())
+
+    it('deve retornar um array', async () => {
+      const response = await model.products.getProductByName()
+      expect(response).to.be.an('array')
+    })
+
+    it('deve retornar apenas um objeto dentro o array', async () => {
+      const response = await model.products.getProductByName()
+      expect(response).to.have.length(1)
+    })
+
+    it('o obejto deve conter as chaves "id", "name" e "quantity"',async () => {
+      const [response] = await model.products.getProductByName()
+      expect(response).to.have.all.keys('id','name', 'quantity')
+    })
+  })
+
+  describe('quando não encontra um name', () => {
+    const result = [[]]
+
+    before(() => {
+
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    after(() => connection.execute.restore())
+
+    it('deve retornar um array', async () => {
+      const response = await model.products.getProductByName()
+      expect(response).to.be.an('array')
+    })
+
+    it('deve retornar um array vazio', async () => {
+      const response = await model.products.getProductByName()
+      expect(response).to.have.length(0)
+    })
+  })
+})

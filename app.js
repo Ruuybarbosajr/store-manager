@@ -8,7 +8,7 @@ const app = express();
 app.get('/', (_request, response) => {
   response.send();
 });
-
+app.use(express.json());
 app.use('/products', router.products);
 app.use('/sales', router.sales);
 app.use(middleware.error);

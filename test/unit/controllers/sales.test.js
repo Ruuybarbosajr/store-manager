@@ -1,4 +1,5 @@
 const { expect } = require('chai')
+const { any } = require('joi')
 const sinon = require('sinon')
 const controller = require('../../../controllers')
 const service =  require('../../../services')
@@ -102,5 +103,33 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
       expect(res.json.calledWith(result)).to.be.equal(true)
     })
 
+  })
+
+  describe('quando não ocorre com sucesso', () => {
+    const error = {status: 404, message: 'Sales not found'}
+
+    const req = {}
+    const res = {}
+    const next = sinon.stub()
+
+    before(() => {
+      req.params = {id: 1}
+      res.status = sinon.stub().returns(res)
+      res.json = sinon.stub().returns()
+
+      sinon.stub(service.sales, 'getSalesById').throws(error)
+    })
+
+    after(() => service.sales.getSalesById.restore())
+
+    it('next é chamado com um objeto de error', async () => {
+        await controller.sales.getSalesById(req, res, next)
+        expect(next.calledWith(error)).to.be.equal(true)
+    })
+
+    it('o objeto deve conter a chave "message" com a messagem "Sales not found"', async () => {
+        await controller.sales.getSalesById(req, res, next)
+        expect(error).to.be.a('object').to.have.property('message', 'Sales not found')
+    })
   })
 })

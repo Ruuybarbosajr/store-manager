@@ -14,7 +14,18 @@ async function getProductById(id) {
   return product;
 }
 
+async function createNewProduct(name, quantity) {
+  const existName = await model.products.getProductByName(name);
+  if (existName.length) {
+    const error = { status: 409, message: 'Product already exists' };
+    throw error;
+  }
+  const response = await model.products.createNewProduct(name, quantity);
+  return response;
+}
+
 module.exports = {
   getAll,
   getProductById,
+  createNewProduct,
 };
