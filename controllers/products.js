@@ -40,9 +40,20 @@ async function updateProduct(req, res, next) {
   }
 }
 
+async function deleteProduct(req, res, next) {
+  const { id } = req.params;
+  try {
+    await service.products.deleteProduct(id);
+    return res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAll,
   getProductById,
   createNewProduct,
   updateProduct,
+  deleteProduct,
 };
