@@ -14,7 +14,14 @@ async function getSalesById(id) {
   return response;
 }
 
+async function createNewSales(sales) {
+  // poderia ter uma verificação dos ids dos produtos
+  const response = await model.sales.createNewSales(sales);
+  return response;
+}
+
 module.exports = {
   getAll,
   getSalesById,
+  createNewSales,
 };

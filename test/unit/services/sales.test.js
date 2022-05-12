@@ -108,3 +108,52 @@ describe('Testa a função getSalesById da camada de services da "sales"', () =>
 
   })
 })
+
+describe('Testa a função createNewSales da camada de services da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = {
+      "id": 1,
+      "itemsSold": [
+        {
+          "productId": 1,
+          "quantity": 2
+        },
+        {
+          "productId": 2,
+          "quantity": 5
+        }
+      ]
+    }
+
+    const sales = [
+      {
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+        "productId": 2,
+        "quantity": 5
+      }
+    ]    
+
+    beforeEach(() => {
+      sinon.stub(model.sales, 'createNewSales').resolves(result)
+    })
+
+    afterEach(() => {
+      model.sales.createNewSales.restore()
+    })
+
+    it('deve retornar um objeto', async () => {
+      const response = await service.sales.createNewSales(sales)
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id" e "itemsSold"', async () => {
+      const response = await service.sales.createNewSales(sales)
+      expect(response).to.have.all.keys('id', 'itemsSold')
+    })
+
+  })
+})

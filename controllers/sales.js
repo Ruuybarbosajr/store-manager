@@ -19,7 +19,17 @@ async function getSalesById(req, res, next) {
   }
 }
 
+async function createNewSales(req, res, next) {
+  try {
+    const response = await service.sales.createNewSales(req.body);
+    return res.status(201).json(response);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAll,
   getSalesById,
+  createNewSales,
 };

@@ -132,3 +132,56 @@ describe('Testa o controller getSalesById da camada de controllers da "sales"', 
     })
   })
 })
+
+describe('Testa o controller createNewSales da camada de controllers da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const result = {
+      "id": 1,
+      "itemsSold": [
+        {
+          "productId": 1,
+          "quantity": 2
+        },
+        {
+          "productId": 2,
+          "quantity": 5
+        }
+      ]
+    }
+
+    const req = {}
+    const res = {}
+
+    beforeEach(() => {
+      res.status = sinon.stub().returns(res)
+      res.json = sinon.stub().returns()
+      req.body = [
+        {
+          "productId": 1,
+          "quantity": 2
+        },
+        {
+          "productId": 2,
+          "quantity": 5
+        }
+      ]
+
+      sinon.stub(service.sales, 'createNewSales').resolves(result)
+    })
+
+    afterEach(() => {
+      service.sales.createNewSales.restore()
+    })
+
+    it('deve retornar um status code 201', async () => {
+      await controller.sales.createNewSales(req, res)
+      expect(res.status.calledWith(201)).to.be.equal(true)
+    })
+
+    it('deve retornar um objeto com as chaves "id" e "itemsSold"', async () => {
+      await controller.sales.createNewSales(req, res)
+      expect(res.json.calledWith(result)).to.be.equal(true)
+    })
+  })
+})

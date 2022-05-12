@@ -98,3 +98,47 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
 
   })
 })
+
+describe('Testa a função createNewSales da camada de models da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+    const result = [[{
+      fieldCount: 0,
+      affectedRows: 1,
+      insertId: 4,
+      info: '',
+      serverStatus: 2,
+      warningStatus: 0
+    }]]
+
+    const sales = [
+      {
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+        "productId": 2,
+        "quantity": 5
+      }
+    ]
+
+    beforeEach(() => {
+      sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves(result)
+      .onSecondCall()
+      .resolves()
+    })
+
+    afterEach(() =>  connection.execute.restore())
+
+    it('deve retornar um objeto', async () => {
+      const response = await model.sales.createNewSales(sales)
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "id" e "itemsSold"', async () => {
+      const response = await model.sales.createNewSales(sales)
+      expect(response).to.have.all.keys('id', 'itemsSold')
+    })
+  })
+})
