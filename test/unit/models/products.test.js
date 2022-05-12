@@ -209,20 +209,32 @@ describe('Testa a função deleteProduct da camada de models da "products"', () 
   })
 })
 
-// describe('Testa a função updateQuantity da camada de models da "products"', () => {
-//   describe('quando ocorre com sucesso', () => {
-    
-//     beforeEach(() => {
-//       sinon.stub(connection, 'execute').resolves()
-//     })
+describe('Testa a função updateQuantity da camada de models da "products"', () => {
+  describe('quando deleta', () => {
 
-//     afterEach(() => {
-//       connection.execute.restore()
-//     })
+    const products = [
+      {
+        "productId": 1,
+        "quantity": 2
+      },
+      {
+       "productId": 2,
+       "quantity": 5
+      }
+    ]
 
-//     it('deve chamar o "connection.execute" com 2 argumentos', async () => {
-//       await model.products.updateQuantity(1, 10)
-//       expect(connection.execute.calledWith(sinon.match.string, sinon.match.array)).to.be.equal(true)
-//     });
-//   });
-// })
+    beforeEach(() => {
+      sinon.stub(connection, 'execute').resolves()
+    })
+
+    afterEach(() => {
+      connection.execute.restore()
+    })
+
+    it('deve chamar o "connection.execute" com 2 argumentos', async () => {
+      await model.products.updateQuantity(products, '+')
+      expect(connection.execute.calledWith(sinon.match.string, sinon.match.array)).to.be.equal(true)
+    });
+
+  });
+})

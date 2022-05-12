@@ -140,10 +140,12 @@ describe('Testa a função createNewSales da camada de services da "sales"', () 
 
     beforeEach(() => {
       sinon.stub(model.sales, 'createNewSales').resolves(result)
+      sinon.stub(model.products, 'updateQuantity').resolves()
     })
 
     afterEach(() => {
       model.sales.createNewSales.restore()
+      model.products.updateQuantity.restore()
     })
 
     it('deve retornar um objeto', async () => {
@@ -209,11 +211,13 @@ describe('Testa a função deleteSales da camada de services da "sales"', () => 
 
       sinon.stub(model.sales, 'deleteSales').resolves()
       sinon.stub(model.sales, 'getSalesById').resolves(['achou o id'])
+      sinon.stub(model.products, 'updateQuantity').resolves()
     })
 
     afterEach(() => {
       model.sales.deleteSales.restore()
       model.sales.getSalesById.restore()
+      model.products.updateQuantity.restore()
     })
 
     it('a função "model.deleSales deve ser chamada" com o id', async () =>{

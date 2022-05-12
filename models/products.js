@@ -50,16 +50,17 @@ async function deleteProduct(id) {
   return affectedRows;
 }
 
-// async function updateQuantity(products) {
-//   const query = `
-//   UPDATE products
-//   SET quantity = 
-//   WHERE id = ?`;
+async function updateQuantity(products, method) {
+  const query = `
+  UPDATE products
+  SET quantity = (SELECT quantity WHERE id = ?) ${method} ?
+  WHERE id = ?`;
 
-//   const arrPromise = products.map(({ productId, quantity }) => {
-//     connection.execute(query, [quantity, id]);
-//   });
-// }
+  const arrPromise = products.map(({ productId, quantity }) => 
+  connection.execute(query, [productId, quantity, productId]));
+
+  await Promise.all(arrPromise);
+}
 
 module.exports = {
   getAll,
@@ -68,5 +69,5 @@ module.exports = {
   getProductByName,
   updateProduct,
   deleteProduct,
-  // updateQuantity,
+  updateQuantity,
 };

@@ -17,7 +17,7 @@ async function getSalesById(id) {
 async function createNewSales(sales) {
   // poderia ter uma verificação dos ids dos produtos
   const response = await model.sales.createNewSales(sales);
-  // await model.products.updateQuantity(sales);
+  await model.products.updateQuantity(response.itemsSold, '-');
   return response;
 }
 
@@ -31,7 +31,9 @@ async function deleteSales(id) {
   if (!findSale.length) {
     const error = { status: 404, message: 'Sale not found' };
     throw error;
-  } 
+  }
+
+  await model.products.updateQuantity(findSale, '+');
   await model.sales.deleteSales(id);
 }
 
