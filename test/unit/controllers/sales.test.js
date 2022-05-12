@@ -220,6 +220,30 @@ describe('Testa o controller updateSales da camada de controllers  da "sales"', 
     await controller.sales.updateSales(req, res)
     expect(res.json.calledWith(result)).to.be.equal(true)
   })
+  })
+})
 
+describe('Testa o controller deleteSales da camada de controllers da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+
+    const req = {}
+    const res = {}
+
+    beforeEach(() => {
+      req.params = {id: 1}
+      res.status = sinon.stub().returns(res)
+      res.end  = sinon.stub().returns()
+
+      sinon.stub(service.sales, 'deleteSales').resolves()
+    })
+
+    afterEach(() => {
+      service.sales.deleteSales.restore()
+    })
+    
+    it('deve retornar um status code 204', async () => {
+      await controller.sales.deleteSales(req, res)
+      expect(res.status.calledWith(204)).to.be.equal(true)
+    });
   })
 })

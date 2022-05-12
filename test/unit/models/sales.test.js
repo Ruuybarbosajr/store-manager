@@ -173,3 +173,29 @@ describe('Testa a função updateSales da camada de models da "sales"', () => {
     })
   })
 })
+
+describe('Testa a função deleteSales da camada de models da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+    const id = 1
+
+    const result = [{
+      fieldCount: 0,
+      affectedRows: 1,
+      insertId: 0,
+      info: '',
+      serverStatus: 2,
+      warningStatus: 0
+    }]
+
+    beforeEach(() => {
+      sinon.stub(connection, 'execute').resolves(result)
+    })
+
+    afterEach(() => connection.execute.restore())
+
+    it('"connection.execute" deve ser chamada', async () => {
+      await model.sales.deleteSales(id)
+      expect(connection.execute.calledWith()).to.be.equal(true)
+    })
+  })
+})

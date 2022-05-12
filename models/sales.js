@@ -66,9 +66,18 @@ async function updateSales(id, sales) {
   };
 }
 
+async function deleteSales(id) {
+  const deleteSale = 'DELETE FROM sales WHERE id = ?';
+  await connection.execute(deleteSale, [id]);
+
+  const deleteSalesProducts = 'DELETE FROM sales_products WHERE sale_id = ?';
+  await connection.execute(deleteSalesProducts, [id]);
+}
+
 module.exports = {
   getAll,
   getSalesById,
   createNewSales,
   updateSales,
+  deleteSales,
 };

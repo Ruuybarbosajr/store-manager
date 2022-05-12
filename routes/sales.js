@@ -5,6 +5,7 @@ const middleware = require('../middlewares');
 const router = express.Router();
 
 router.get('/', controller.sales.getAll);
+
 router.get('/:id', controller.sales.getSalesById);
 
 router.post(
@@ -20,5 +21,7 @@ router.put(
   middleware.valid.contentBodySales,
   controller.sales.updateSales,
 );
+
+router.delete('/:id', controller.sales.deleteSales);
 
 module.exports = router;

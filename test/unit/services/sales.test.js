@@ -199,3 +199,52 @@ describe('Testa a função updateSales da camada de services  da "sales"', () =>
     })
   })
 })
+
+describe('Testa a função deleteSales da camada de services da "sales"', () => {
+  describe('quando encontra o id', () => {
+    const id = 1
+
+    beforeEach(() => {
+
+      sinon.stub(model.sales, 'deleteSales').resolves()
+    })
+
+    afterEach(() => model.sales.deleteSales.restore())
+
+    it('a função "model.deleSales deve ser chamada" com o id', async () =>{
+      await service.sales.deleteSales(id)
+      expect(model.sales.deleteSales.calledWith(id)).to.be.equal(true)
+    })
+  });
+
+  describe('quando não encontra o id', () => {
+
+    const id = 1
+
+    beforeEach(() => {
+      sinon.stub(model.sales, 'deleteSales').resolves()
+      sinon.stub(model.sales, 'getSalesById').resolves([])
+    })
+
+    afterEach(() => {
+      model.sales.getSalesById.restore()
+      model.sales.deleteSales.restore()
+    })
+
+    it('deve retornar um error', async () => {
+      try {
+        await service.sales.deleteSales(id)
+      } catch (error) {
+        expect(error).to.have.all.keys('status', 'message')
+      }
+    });
+
+    it('a chave "message" deve ter a mensagem "Sale not found"', async () => {
+       try {
+         await service.sales.deleteSales(id)
+       } catch (error) {
+         expect(error).to.have.property('message', 'Sale not found')
+       }
+    });
+  });
+});
