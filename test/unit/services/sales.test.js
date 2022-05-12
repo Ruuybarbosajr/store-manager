@@ -111,6 +111,7 @@ describe('Testa a função getSalesById da camada de services da "sales"', () =>
 
 describe('Testa a função createNewSales da camada de services da "sales"', () => {
   describe('quando ocorre com sucesso', () => {
+    const id = 1
 
     const result = {
       "id": 1,
@@ -146,12 +147,12 @@ describe('Testa a função createNewSales da camada de services da "sales"', () 
     })
 
     it('deve retornar um objeto', async () => {
-      const response = await service.sales.createNewSales(sales)
+      const response = await service.sales.createNewSales(id, sales)
       expect(response).to.be.a('object')
     })
 
     it('o objeto deve conter as chaves "id" e "itemsSold"', async () => {
-      const response = await service.sales.createNewSales(sales)
+      const response = await service.sales.createNewSales(id, sales)
       expect(response).to.have.all.keys('id', 'itemsSold')
     })
 
@@ -207,9 +208,13 @@ describe('Testa a função deleteSales da camada de services da "sales"', () => 
     beforeEach(() => {
 
       sinon.stub(model.sales, 'deleteSales').resolves()
+      sinon.stub(model.sales, 'getSalesById').resolves(['achou o id'])
     })
 
-    afterEach(() => model.sales.deleteSales.restore())
+    afterEach(() => {
+      model.sales.deleteSales.restore()
+      model.sales.getSalesById.restore()
+    })
 
     it('a função "model.deleSales deve ser chamada" com o id', async () =>{
       await service.sales.deleteSales(id)

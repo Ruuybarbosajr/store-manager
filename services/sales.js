@@ -17,6 +17,7 @@ async function getSalesById(id) {
 async function createNewSales(sales) {
   // poderia ter uma verificação dos ids dos produtos
   const response = await model.sales.createNewSales(sales);
+  // await model.products.updateQuantity(sales);
   return response;
 }
 

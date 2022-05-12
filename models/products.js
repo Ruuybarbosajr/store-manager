@@ -50,6 +50,17 @@ async function deleteProduct(id) {
   return affectedRows;
 }
 
+// async function updateQuantity(products) {
+//   const query = `
+//   UPDATE products
+//   SET quantity = 
+//   WHERE id = ?`;
+
+//   const arrPromise = products.map(({ productId, quantity }) => {
+//     connection.execute(query, [quantity, id]);
+//   });
+// }
+
 module.exports = {
   getAll,
   getProductById,
@@ -57,4 +68,5 @@ module.exports = {
   getProductByName,
   updateProduct,
   deleteProduct,
+  // updateQuantity,
 };
