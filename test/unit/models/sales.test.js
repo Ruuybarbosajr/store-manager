@@ -101,14 +101,14 @@ describe('Testa a função getSalesById da camada de models da "sales"', () => {
 
 describe('Testa a função createNewSales da camada de models da "sales"', () => {
   describe('quando ocorre com sucesso', () => {
-    const result = [[{
+    const result = [{
       fieldCount: 0,
       affectedRows: 1,
       insertId: 4,
       info: '',
       serverStatus: 2,
       warningStatus: 0
-    }]]
+    }]
 
     const sales = [
       {
@@ -122,11 +122,7 @@ describe('Testa a função createNewSales da camada de models da "sales"', () =>
     ]
 
     beforeEach(() => {
-      sinon.stub(connection, 'execute')
-      .onFirstCall()
-      .resolves(result)
-      .onSecondCall()
-      .resolves()
+      sinon.stub(connection, 'execute').resolves(result)
     })
 
     afterEach(() =>  connection.execute.restore())
@@ -139,6 +135,41 @@ describe('Testa a função createNewSales da camada de models da "sales"', () =>
     it('o objeto deve conter as chaves "id" e "itemsSold"', async () => {
       const response = await model.sales.createNewSales(sales)
       expect(response).to.have.all.keys('id', 'itemsSold')
+    })
+  })
+})
+
+describe('Testa a função updateSales da camada de models da "sales"', () => {
+  describe('quando ocorre com sucesso', () => {
+    const id = 1
+
+    const sales = [{
+        "productId": 1,
+        "quantity": 6
+      }]
+    
+    beforeEach(() => {
+      sinon.stub(connection, 'execute').resolves()
+    })
+
+    afterEach(() => {
+      connection.execute.restore()
+    })
+
+    it('deve retornar um objeto com as informações atualizada', async () => {
+      const response = await model.sales.updateSales(id, sales)
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "saleId" e "itemUpdated"', async () => {
+      const response = await model.sales.updateSales(id, sales)
+      expect(response).to.have.all.keys('saleId','itemUpdated')
+    })
+
+    it('as chaves devem conter as informações da atualização', async () => {
+      const response = await model.sales.updateSales(id, sales)
+      expect(response.saleId).to.be.equal(id)
+      expect(response.itemUpdated).to.be.equal(sales)
     })
   })
 })

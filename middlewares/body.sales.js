@@ -2,8 +2,12 @@ const joi = require('joi');
 
 const schema = joi.array().items(
   joi.object({
-    productId: joi.number().required(),
-    quantity: joi.number().required(),
+    productId: joi.number().required().messages({
+      'any.required': '"productId" is required',
+    }),
+    quantity: joi.number().required().messages({
+      'any.required': '"quantity" is required',
+    }),
   }),
 );
 

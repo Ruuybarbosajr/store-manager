@@ -48,8 +48,27 @@ async function createNewSales(sales) {
   };
 }
 
+async function updateSales(id, sales) {
+  const query = `
+  UPDATE sales_products 
+  SET quantity = ?
+  WHERE sale_id = ?
+  AND product_id = ?`;
+
+  const arrPromise = sales.map(({ quantity, productId }) => 
+  connection.execute(query, [quantity, id, productId]));
+
+  await Promise.all(arrPromise);
+
+  return {
+    saleId: id,
+    itemUpdated: sales,
+  };
+}
+
 module.exports = {
   getAll,
   getSalesById,
   createNewSales,
+  updateSales,
 };

@@ -157,3 +157,45 @@ describe('Testa a função createNewSales da camada de services da "sales"', () 
 
   })
 })
+
+describe('Testa a função updateSales da camada de services  da "sales"', () => {
+  describe('quando encontra o id', () => {
+
+    const id = 1
+
+    const sales = [{
+        "productId": 1,
+        "quantity": 6
+      }]
+    
+    const result = {
+      saleId: 1,
+      itemUpdated: [{
+        "productId": 1,
+        "quantity": 6
+      }]
+    }
+
+    beforeEach(() => {
+      sinon.stub(model.sales, 'updateSales').resolves(result)
+    })
+
+    afterEach(() => model.sales.updateSales.restore())
+
+    it('deve retornar um objeto', async () => {
+      const response = await service.sales.updateSales(id, sales)
+      expect(response).to.be.a('object')
+    })
+
+    it('o objeto deve conter as chaves "saleId" e "itemUpdated"', async () => {
+      const response = await service.sales.updateSales(id, sales)
+      expect(response).to.have.all.keys('saleId','itemUpdated')
+    })
+
+    it('as chaves devem conter as informações da atualização', async () => {
+      const response = await service.sales.updateSales(id, sales)
+      expect(response).to.have.property('saleId', id)
+      expect(response).to.have.deep.property('itemUpdated', sales)
+    })
+  })
+})

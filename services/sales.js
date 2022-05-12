@@ -20,8 +20,13 @@ async function createNewSales(sales) {
   return response;
 }
 
+async function updateSales(id, sales) {
+  const response = await model.sales.updateSales(id, sales);
+  return response;
+}
 module.exports = {
   getAll,
   getSalesById,
   createNewSales,
+  updateSales,
 };

@@ -28,8 +28,19 @@ async function createNewSales(req, res, next) {
   }
 }
 
+async function updateSales(req, res, next) {
+  const { id } = req.params;
+  try {
+    const response = await service.sales.updateSales(id, req.body);
+    return res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAll,
   getSalesById,
   createNewSales,
+  updateSales,
 };

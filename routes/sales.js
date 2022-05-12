@@ -14,4 +14,11 @@ router.post(
   controller.sales.createNewSales,
 );
 
+router.put(
+  '/:id', 
+  middleware.valid.bodySales,
+  middleware.valid.contentBodySales,
+  controller.sales.updateSales,
+);
+
 module.exports = router;
