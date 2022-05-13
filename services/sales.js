@@ -15,7 +15,16 @@ async function getSalesById(id) {
 }
 
 async function createNewSales(sales) {
-  // poderia ter uma verificação dos ids dos produtos
+  const arrProduct = await Promise.all(sales.map(({ productId }) => 
+  model.products.getProductById(productId)));
+
+  const hasStock = sales.some((sale, index) => sale.quantity > arrProduct[index].quantity);
+
+  if (hasStock) {
+    const error = { status: 422, message: 'Such amount is not permitted to sell' };
+    throw error;
+  }
+
   const response = await model.sales.createNewSales(sales);
   await model.products.updateQuantity(response.itemsSold, '-');
   return response;
