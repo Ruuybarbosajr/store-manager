@@ -56,7 +56,7 @@ async function updateQuantity(products, method) {
   SET quantity = (SELECT quantity WHERE id = ?) ${method} ?
   WHERE id = ?`;
 
-  const arrPromise = products.map(({ productId, quantity }) => 
+  const arrPromise = products.map(({ productId, quantity }) =>
   connection.execute(query, [productId, quantity, productId]));
 
   await Promise.all(arrPromise);
