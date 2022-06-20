@@ -1,1 +1,1 @@
-# Boas-vindas ao repositório do Projeto Store Manager!
+# Boas-vindas ao repositório do Store Manager!
